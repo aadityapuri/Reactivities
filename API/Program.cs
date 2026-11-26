@@ -6,6 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.Services.AddCors();
 builder.Services.AddDbContext<AppDbContext>(opt =>
 {
     opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
@@ -13,6 +14,8 @@ builder.Services.AddDbContext<AppDbContext>(opt =>
 
 var app = builder.Build();
 
+app.UseCors(options => options.AllowAnyHeader().AllowAnyMethod()
+    .WithOrigins("https;//localhost:3000", "http://localhost:3000"));
 app.MapControllers();
 
 using var scope = app.Services.CreateScope(); // using keyword helps to put this in the garbage so that the garbage collector then collects this after it has been used already.
