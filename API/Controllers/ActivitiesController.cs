@@ -33,11 +33,18 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<string>> CreateActivity([FromBody]Activity activity)
+        public async Task<ActionResult<string>> CreateActivity(Activity activity)
         {
-            var createdActivity = await Mediator.Send(new CreateActivity.Commands(){Activity = activity});
+            var createdActivity = await Mediator.Send(new CreateActivity.Command(){Activity = activity});
 
             return createdActivity;
+        }
+
+        [HttpPut]
+        public async Task<ActionResult> UpdateActivity(Activity activity)
+        {
+            await Mediator.Send(new UpdateActivity.Command(){ Activity = activity });
+            return NoContent();
         }
     }
 }
