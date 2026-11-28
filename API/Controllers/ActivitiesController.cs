@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Threading.Tasks;
+using Application.Activities.Commands;
 using Application.Activities.Queries;
 using Domain;
 using MediatR;
@@ -15,7 +16,7 @@ namespace API.Controllers
     public class ActivitiesController() : BaseApiController
     {
         [HttpGet]
-        public async Task<List<Activity>> GetActivitiesAsync()
+        public async Task<ActionResult<List<Activity>>> GetActivitiesAsync()
         {
             return await Mediator.Send(new GetActivityList.Query());
         }
@@ -29,6 +30,14 @@ namespace API.Controllers
             });
 
             return activity;
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<string>> CreateActivity([FromBody]Activity activity)
+        {
+            var createdActivity = await Mediator.Send(new CreateActivity.Commands(){Activity = activity});
+
+            return createdActivity;
         }
     }
 }
