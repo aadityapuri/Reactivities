@@ -18,10 +18,7 @@ namespace Application.Activities.Queries
         {
             public async Task<Activity> Handle(Query request, CancellationToken cancellationToken)
             {
-                var activity = await context.Activities.FindAsync([request.Id], cancellationToken);
-
-                if (activity != null) return activity;
-                return null;
+                return await context.Activities.FindAsync([request.Id], cancellationToken) ?? throw new Exception("Activity does not exist");
             }
         }
     }

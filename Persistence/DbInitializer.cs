@@ -11,7 +11,7 @@ namespace Persistence
     {
         public static async Task SeedData(AppDbContext context)
         {
-            if (context.Activities.Count() > 0) return;
+            if (context.Activities.Any()) return;
 
             context.Activities.AddRange(new List<Activity>()
             {
